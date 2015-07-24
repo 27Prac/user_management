@@ -7,7 +7,7 @@
 - Right now authtoken implemented using simplistic 'encrypted_strings gem' . OAuth2 workflow was work in progress.So removed that
 - Password and Confirmation code stored using decrypt gem in DB.
 - Git branch and git tag demostrated in git repo
-       - First release is a branch having two tag GM -Gold Master and FP - First Patch.
+       -  First release is a branch having two tag GM -Gold Master and FP - First Patch.
 
 =Workflow
 - Create User using create user api
