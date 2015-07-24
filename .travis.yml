@@ -1,0 +1,9 @@
+lang: ruby
+rvm:
+  - 2.0.0
+  - 2.1.4
+env:
+  - DB=sqlite
+script:
+  - bundle exec padrino rake ar:schema:load
+  - bundle exec padrino rake spec

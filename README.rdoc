@@ -1,0 +1,97 @@
+
+=Details:
+- Rest API as well as web interface implemented using padrino/sinatra.
+- Project right now will run on local machine only.
+- To access the webinterface first follow setup below and go to localhost:3000 in your browser
+- Email sending and email confirmation is implemented. You will only be able to login or get access token when you confirm you email.
+- Right now authtoken implemented using simplistic 'encrypted_strings gem' . OAuth2 workflow was work in progress.So removed that
+- Password and Confirmation code stored using decrypt gem in DB.
+- Git branch and git tag demostrated in git repo
+       - First release is a branch having two tag GM -Gold Master and FP - First Patch.
+
+=Workflow
+- Create User using create user api
+      Create User API:
+          Sucess Scenario
+                - Creates the user with name,email and password as specified in the body
+           Error Scenario
+                   - This api will return "NoUserCreateException" if it is not able to create a user due to any reason such as "name already exits, password short" etc.
+                   - This api will return "InputValidationError" if the content type send is not json
+- You will get the email when the account gets created Click the confirmation link in the email.
+      Emails are being sent using Gmail SMTP settings.
+- Geth the auth token using GetAuthToken API
+      Auth Token API:
+        Sucess Scenario
+            - Return the access token in the response headers
+        Error Scenario
+            - This api will return "NoConfirmationYetError" if user has not yet clicked on the confirmation link
+            - This api will return "InputValidationError" if the content type send is not json
+            - This api wil return "InvalidCredentialsError" if the email and password supplied do not match with DB.
+
+- Using the auth token generated in above call make the read user call
+       Read User API:
+         Sucess Scenario
+              - Return the json representation of the user in the body
+         Error Scenario
+              - Return the "ResourceNotFoundError" if the user does not exist.
+
+- Using the auth token generated to update the user
+    Update User API:
+           Sucess Scenario
+                - Updates the user
+           Error Scenario
+                - Return the "ResourceNotFoundError" if the user does not exist.
+
+
+=REST API's for CRU operations:-
+- For API refernce see this doc
+https://github.com/27Prac/user_management/blob/master/README_APIREFERENCE.rdoc
+
+
+=Set Up
+-Install padrino gem
+     gem install padrino
+- Clone the project:
+     git clone -b first_release git@github.com:27Prac/user_management.git
+
+- cd to the project and bundle
+    cd user_management
+    bundle
+
+- Start padrino
+    padrino start
+
+
+=User Interface
+
+- Go to localhost:3000 and you can create, login , logout , update a user etc.
+
+=Example REST API calls
+
+- Create a User Example
+        curl -v -X POST localhost:3000/users/ -H "Content-Type:application/json" --data-binary "{\"name\":\"somename\",\"email\":\"sn@gmail.com\",\"password\":\"12345\"}"
+
+- Above call with send a mail with confirmation link to the email address. Sometimes it is not able to send a email. In that case to confirm user copy the confirmation link from the terminal console and paste it in the browser to confirm the user.
+
+- Get the Auth Token from the response headers in below call
+        curl -v -X POST localhost:3000/users/token -H "Content-Type:application/json" --data-binary "{\"email\":\"sn@gmail.com\",\"password\":\"12345\"}"
+
+Note: It will error if the user is not yet clicked the confirmation link
+
+
+- Set auth header froom the response header of previsou call
+          eg auth_header=hVBINWBA91aBvctJ+do3Xl/tvb00WUcYzKk0EFrkxhElGdAnnNKvVQ==
+
+- Read the user
+         curl -v -X GET localhost:3000/users/ -H "Authorization:$auth_header"
+
+- Update the user
+        curl -v  -X PUT localhost:3000/user -H "Content-Type:application/json" --data-binary "{\"name\":\"fgg\",\"email\":\"sn@gmail.com\",\"password\":\"12345\"}" -H "Authorization:$auth_header"
+
+- Again call read to check that the user has been updated
+        curl -v -X GET localhost:3000/users/ -H "Authorization:$auth_header"
+
+
+
+
+

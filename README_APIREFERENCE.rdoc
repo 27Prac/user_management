@@ -1,0 +1,125 @@
+= API Reference
+
+== Create User
+
+=== Description
+    Creates a user
+=== Request
+    POST /users/ HTTP/1.1
+    Content-Type: application/json
+    Content-Length: {xsd:nonNegativeInteger}
+=== Response
+    204 Created
+    Location : /users/:_id
+
+    400 Bad Request
+    {
+        "code": 1000,
+        "description": "Input Validation Error"
+    }
+
+    400 User Not Created
+    {
+         "code": 1005,
+         "description": "No user created"
+    }
+
+
+=== GetAuthToken
+
+=== Description
+    Get authtoken for a user
+=== Request
+    POST /users/token HTTP/1.1
+    Content-Type: application/json
+    Content-Length: {xsd:nonNegativeInteger}
+    {
+    	"email": <email>
+    	"password" : <password>
+    }
+=== Response
+    201
+    Authorization : <auth_token>
+
+    400 Bad Request
+    {
+        "code": 1000,
+        "description": "Input Validation Error"
+    }
+
+    403 User Not confirmed
+    {
+        "code": 1006,
+        "description": "No email confirmation done ye"
+    }
+
+    401 Invalid Credentials
+    {
+         "code": 1002,
+         "description": "User Name or Password did not match"
+    }
+
+
+
+
+
+== Get User
+
+=== Description
+    Creates a user.You need to pass the auth_token in header. It will figure out user id from auth token
+=== Request
+    GET /users/ HTTP/1.1
+    Authorization: {auth_token}
+    Content-Type: application/json
+    Content-Length: {xsd:nonNegativeInteger}
+=== Response
+    200 OK
+    {
+    "base" : "<base_url>",
+    "_id"  : "<user:<user_id>"
+    "email": "<email_address>",
+    "ame"  : "<full_name>",
+    }
+
+    404 Resource Not Found
+    {
+         "code": 1002,
+         "description": "Resource not found"
+    }
+
+
+== Updates User
+
+=== Description
+    Updates a user. You need to pass the auth token. It will figure out user id from auth token
+=== Request
+    PUT /users/ HTTP/1.1
+    Authorization: {auth_token}
+    Content-Type: application/json
+    Content-Length: {xsd:nonNegativeInteger}
+=== Response
+    201 Updated
+
+    404 Resource Not Found
+    {
+         "code": 1002,
+         "description": "Resource not found"
+    }
+
+
+== Delete User
+=== Description
+    Admin api can only be called by admin.Delete a user. You need to pass the auth token of admin. It will figure out user id from auth token
+=== Request
+    Delete /users/ HTTP/1.1
+    Authorization: {auth_token}
+    Content-Type: application/json
+    Content-Length: {xsd:nonNegativeInteger}
+=== Response
+    204 deleted
+
+     403 Not Permitted
+        {
+            "code": 1001,
+            "description": "Requested operation not permitted"
+        }
