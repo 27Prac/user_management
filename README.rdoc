@@ -8,8 +8,12 @@
 - cd to  both the project and bundle
 
 - Start padrino for both the projects
-    Running 'user_management'  ->  `padrino start`
-    Running 'user_management_webapp' -> `padrino start -p 3001`
+       Running 'user_management'  ->
+        padrino rake ar:migrate
+        padrino start
+    Running 'user_management_webapp' ->
+        padrino rake ar:migrate
+        padrino start -p 3001
 
 =Additional links
    - Readme for 'user_management' repo -  https://github.com/27Prac/user_management/blob/second_release/README.rdoc
