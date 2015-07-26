@@ -33,3 +33,4 @@ end
 
 # Mounts the core application for this project
 Padrino.mount('UserManagement::App', :app_file => Padrino.root('app/app.rb')).to('/')
+#Padrino.mount("UserManagement::APP",:app_file => File.expand_path('../../webapp/app/app.rb',__FILE__)).host(/^ons/).to('/')

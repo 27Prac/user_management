@@ -1,6 +1,9 @@
 module UserManagement
   class App < Padrino::Application
     use ActiveRecord::ConnectionAdapters::ConnectionManagement
+	dir = File.expand_path('..', __FILE__)
+	require dir + '/../lib/songkick/oauth2/provider'
+	Songkick::OAuth2::Provider.realm = 'UserManagement'
     register Padrino::Rendering
     register Padrino::Mailer
     register Padrino::Helpers

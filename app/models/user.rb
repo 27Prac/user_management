@@ -1,16 +1,15 @@
 class User < ActiveRecord::Base
+
+  include Songkick::OAuth2::Model::ResourceOwner
+  include Songkick::OAuth2::Model::ClientOwner
   module Constants
 		PASSWORD_SALT = '$2a$10$7pGtu/4B.QStFjelud1ySO'.freeze
 	    TOKEN_SALT = '$2a$10$rZbdUdO.wTtDh/EVJkErw.'.freeze
 		SECRET_KEY = 'secret'.freeze
   end
   include Constants
-  include Auth
 
   include StringNormalizer
-
-  validates :name, :presence => true,
-                   :uniqueness => true
 
   validates :password, :length => {:minimum => 5},
                        :presence => true,
@@ -46,13 +45,6 @@ class User < ActiveRecord::Base
 	  else
 		  false
 	  end
-  end
-
-  def generate_auth_token()
-	  require 'encrypted_strings'
-	  info="{\"id\":\"#{self.id}\",\"email\":\"#{self.email}\"}"
-	  encrypted_value = info.encrypt(:symmetric, :algorithm => 'des-ecb', :password => User::SECRET_KEY)
-	  encrypted_value
   end
 
   private

@@ -15,7 +15,8 @@ gem 'timerizer', '0.1.4'
 group :development do
   gem 'better_errors', '2.0.0'
 end
-
+gem 'curb'
+gem 'json'
 
 group :test do
   gem 'rspec' , '2.14.1'

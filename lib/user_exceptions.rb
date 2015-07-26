@@ -53,6 +53,22 @@ class PermissionError < UserException
 	end
 end
 
+class UnAuthorizedAccessErorr < UserException
+	def description
+		"Not Authorized"
+	end
+	def status_code
+		401
+	end
+	def u_code
+		1007
+	end
+	def build_view_object
+		view_obj = super
+		view_obj
+	end
+end
+
 class ResourceNotFoundError < UserException
 	def description
 		"Resource not found"
